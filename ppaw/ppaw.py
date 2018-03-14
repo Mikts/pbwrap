@@ -1,6 +1,7 @@
 """A simple pastebin api wrapper."""
 
 import requests
+from ppaw import ppaw_formatter as ppaw_form
 
 
 def get_user_id(dev_key, username, password):
@@ -17,29 +18,29 @@ def get_user_id(dev_key, username, password):
 def get_user_details(api_dev_key, api_user_key):
     """Return user details"""
     data = locals()
-    data['api_option'] = 'trends'
+    data['api_option'] = 'userdetails'
 
     r = requests.post('https://pastebin.com/api/api_post.php', data)
 
-    return r.text
+    return ppaw_form.user_from_xml(r.text)
 
 
 def get_trending(dev_key):
-    """Return a dictionary with the most trending pastes."""
+    """Return a dictionary of paste objects with the most trending pastes."""
     data = {
         'api_dev_key': dev_key,
         'api_option': 'trends'}
 
     r = requests.post('https://pastebin.com/api/api_post.php', data)
 
-    return r.text
+    return ppaw_form.paste_list_from_xml(r.text)
 
 
 def get_archive():
-    """Return archive html page."""
+    """Return archive paste list.Archive contains 25 most recent pastes."""
     r = requests.get('https://pastebin.com/archive')
 
-    return r.text
+    return ppaw_form.archive_url_format(r.text)
 
 
 def get_raw_paste(paste_id):
@@ -78,7 +79,10 @@ def get_user_pastes(api_dev_key, api_user_key, api_results_limit=None):
 
     r = requests.post('https://pastebin.com/api/api_post.php', filtered_data)
 
-    return r.text
+    if r.text:
+        return r.text
+    else:
+        return 'No pastes in this account'
 
 
 def delete_user_paste(api_dev_key, api_user_key, api_paste_key):

@@ -4,92 +4,91 @@ import requests
 from ppaw import ppaw_formatter as ppaw_form
 
 
-def get_user_id(dev_key, username, password):
-    """Return a string with the api user key."""
-    data = {'api_dev_key': dev_key,
-            'api_user_name': username,
-            'api_user_password': password}
+class Pastebin(object):
 
-    r = requests.post('https://pastebin.com/api/api_login.php', data)
+    def __init__(self, dev_key):
+        self.dev_key = dev_key
+        self.user_key = ""
 
-    return r.text
+    def get_user_id(dev_key, username, password):
+        """Return a string with the api user key."""
+        data = {'api_dev_key': dev_key,
+                'api_user_name': username,
+                'api_user_password': password}
 
+        r = requests.post('https://pastebin.com/api/api_login.php', data)
 
-def get_user_details(api_dev_key, api_user_key):
-    """Return user details"""
-    data = locals()
-    data['api_option'] = 'userdetails'
-
-    r = requests.post('https://pastebin.com/api/api_post.php', data)
-
-    return ppaw_form.user_from_xml(r.text)
-
-
-def get_trending(dev_key):
-    """Return a dictionary of paste objects with the most trending pastes."""
-    data = {
-        'api_dev_key': dev_key,
-        'api_option': 'trends'}
-
-    r = requests.post('https://pastebin.com/api/api_post.php', data)
-
-    return ppaw_form.paste_list_from_xml(r.text)
-
-
-def get_archive():
-    """Return archive paste list.Archive contains 25 most recent pastes."""
-    r = requests.get('https://pastebin.com/archive')
-
-    return ppaw_form.archive_url_format(r.text)
-
-
-def get_raw_paste(paste_id):
-    """Return raw text of given paste_id."""
-    r = requests.get('https://pastebin.com/raw/' + paste_id)
-    return r.text
-
-
-def create_new_paste(
-    api_dev_key,
-    api_paste_code,
-    api_paste_private=0,
-    api_paste_name=None,
-    api_paste_expire_date=None,
-    api_paste_format=None,
-        api_user_key=None):
-    """Create a new paste if succesfull return it's url."""
-    data = locals()
-    data['api_option'] = 'paste'
-
-    # Filter data and remove dictionary None keys.
-    filtered_data = {k: v for k, v in data.items() if v is not None}
-
-    r = requests.post('https://pastebin.com/api/api_post.php', filtered_data)
-
-    return r.text
-
-
-def get_user_pastes(api_dev_key, api_user_key, api_results_limit=None):
-    """Return a list of user pastes."""
-    data = locals()
-    data['api_option'] = 'list'
-
-    # Filter data and remove dictionary None keys.
-    filtered_data = {k: v for k, v in data.items() if v is not None}
-
-    r = requests.post('https://pastebin.com/api/api_post.php', filtered_data)
-
-    if r.text:
         return r.text
-    else:
-        return 'No pastes in this account'
 
+    def get_user_details(api_dev_key, api_user_key):
+        """Return user details"""
+        data = locals()
+        data['api_option'] = 'userdetails'
 
-def delete_user_paste(api_dev_key, api_user_key, api_paste_key):
-    """Deletes a paste created by the user."""
-    data = locals()
-    data['api_option'] = 'delete'
+        r = requests.post('https://pastebin.com/api/api_post.php', data)
 
-    r = requests.post('https://pastebin.com/api/api_post.php', data)
+        return ppaw_form.user_from_xml(r.text)
 
-    return r.text
+    def get_trending(dev_key):
+        """Return a dictionary of paste objects with the most trending pastes."""
+        data = {
+            'api_dev_key': dev_key,
+            'api_option': 'trends'}
+
+        r = requests.post('https://pastebin.com/api/api_post.php', data)
+
+        return ppaw_form.paste_list_from_xml(r.text)
+
+    def get_archive():
+        """Return archive paste list.Archive contains 25 most recent pastes."""
+        r = requests.get('https://pastebin.com/archive')
+
+        return ppaw_form.archive_url_format(r.text)
+
+    def get_raw_paste(paste_id):
+        """Return raw text of given paste_id."""
+        r = requests.get('https://pastebin.com/raw/' + paste_id)
+        return r.text
+
+    def create_new_paste(
+        api_dev_key,
+        api_paste_code,
+        api_paste_private=0,
+        api_paste_name=None,
+        api_paste_expire_date=None,
+        api_paste_format=None,
+            api_user_key=None):
+        """Create a new paste if succesfull return it's url."""
+        data = locals()
+        data['api_option'] = 'paste'
+
+        # Filter data and remove dictionary None keys.
+        filtered_data = {k: v for k, v in data.items() if v is not None}
+
+        r = requests.post('https://pastebin.com/api/api_post.php', filtered_data)
+
+        return r.text
+
+    def get_user_pastes(api_dev_key, api_user_key, api_results_limit=None):
+        """Return a list of user pastes."""
+        data = locals()
+        data['api_option'] = 'list'
+
+        # Filter data and remove dictionary None keys.
+        filtered_data = {k: v for k, v in data.items() if v is not None}
+
+        r = requests.post('https://pastebin.com/api/api_post.php', filtered_data)
+
+        if r.text:
+            return r.text
+        else:
+            return 'No pastes in this account'
+
+    def delete_user_paste(api_dev_key, api_user_key, api_paste_key):
+        """Deletes a paste created by the user."""
+        data = locals()
+        data['api_option'] = 'delete'
+
+        r = requests.post('https://pastebin.com/api/api_post.php', data)
+
+        return r.text

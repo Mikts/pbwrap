@@ -1,7 +1,9 @@
 import xml.etree.ElementTree as et
-from ppaw import ppaw_models
 from datetime import datetime
 import re
+
+from ppaw.ppaw_models import Paste
+
 """Contains function that manipulate the API returns for easier data manipulation."""
 
 
@@ -13,7 +15,7 @@ def paste_list_from_xml(xml_paste_list):
     """
     paste_list = list()
 
-    # Element Tree demands a base root to create xml element from string.
+    # xml demands a base root to create xml element from string.
     # So we have to hardcode it.
     root = et.fromstring("<root>" + xml_paste_list + "</root>")
 
@@ -26,12 +28,11 @@ def paste_list_from_xml(xml_paste_list):
             value = paste_element.text
 
             if key == 'date' and int(value) > 0:
-                print(value)
                 value = datetime.utcfromtimestamp(int(value))
 
             paste_dict[key] = value
 
-        paste_list.append(paste(paste_dict))
+        paste_list.append(Paste(paste_dict))
 
     return paste_list
 
@@ -41,7 +42,9 @@ def archive_url_format(archive_html):
     pastes_urls = list()
 
     # Regex Magic
-    pastes = re.findall(r' \/><a href=\"\/(.+?)\">(.+?)<\/a><\/td>', archive_html)
+    pastes = re.findall(r'/><a href=\"/(.+?)\">(.+?)</a></td>', archive_html)
+
+    print(pastes)
 
     for paste_id, paste_name in pastes:
         pastes_urls.append('https://pastebin.com/' + paste_id)

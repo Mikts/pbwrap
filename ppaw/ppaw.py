@@ -2,18 +2,18 @@
 
 import requests
 from ppaw import ppaw_formatter as ppaw_form
-from helpers.constants import API_OPTIONS
+from ppaw.helpers.constants import API_OPTIONS
 
 
 class Pastebin(object):
 
-    def __init__(self, dev_key):
-        self.api_dev_key = dev_key
+    def __init__(self, api_dev_key):
+        self.api_dev_key = api_dev_key
         self.api_user_key = None
 
     def get_user_id(self, username, password):
         """Return a string with the api user key."""
-        data = {'api_dev_key': self.dev_key,
+        data = {'api_dev_key': self.api_dev_key,
                 'api_user_name': username,
                 'api_user_password': password}
 
@@ -23,7 +23,7 @@ class Pastebin(object):
 
     def get_user_details(self):
         """Return user details"""
-        data = {'api_dev_key': self.dev_key,
+        data = {'api_dev_key': self.api_dev_key,
                 'api_user_key': self.api_user_key}
 
         r = requests.post('https://pastebin.com/api/api_post.php', data)
@@ -33,14 +33,15 @@ class Pastebin(object):
     def get_trending(self):
         """Return a dictionary of paste objects with the most trending pastes."""
         data = {
-            'api_dev_key': self.dev_key,
+            'api_dev_key': self.api_dev_key,
             'api_option': API_OPTIONS['TREND']}
 
         r = requests.post('https://pastebin.com/api/api_post.php', data)
 
         return ppaw_form.paste_list_from_xml(r.text)
 
-    def get_archive(@staticmethod):
+    @staticmethod
+    def get_archive():
         """Return archive paste list.Archive contains 25 most recent pastes."""
         r = requests.get('https://pastebin.com/archive')
 

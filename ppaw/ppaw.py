@@ -12,7 +12,11 @@ class Pastebin(object):
         self.api_user_key = None
 
     def get_user_id(self, username, password):
-        """Return a string with the api user key."""
+        """
+        Return a string with the api user key.
+        :param str password: The user in interest's password
+        :param str username: The user in interest's username
+        """
         data = {'api_dev_key': self.dev_key,
                 'api_user_name': username,
                 'api_user_password': password}
@@ -21,6 +25,7 @@ class Pastebin(object):
         self.api_user_key = r.text
         return self.api_user_key
 
+    def get_user_details(self):
     def get_user_details(self):
         """Return user details"""
         data = {'api_dev_key': self.dev_key,

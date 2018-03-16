@@ -11,7 +11,11 @@ class Pastebin(object):
         self.user_key = ""
 
     def get_user_id(dev_key, username, password):
-        """Return a string with the api user key."""
+        """
+        Return a string with the api user key.
+        :param str username: The user in interest's username
+        :param str password: The user in interest's password
+        """
         data = {'api_dev_key': dev_key,
                 'api_user_name': username,
                 'api_user_password': password}
@@ -21,7 +25,10 @@ class Pastebin(object):
         return r.text
 
     def get_user_details(api_dev_key, api_user_key):
-        """Return user details"""
+        """
+        :param str api_user_key:
+        Return user details
+        """
         data = locals()
         data['api_option'] = 'userdetails'
 

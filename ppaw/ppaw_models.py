@@ -1,4 +1,4 @@
-class paste(object):
+class Paste(object):
     """Defines a Paste from Pastebin paste contains the following fields:
        key,
        date,
@@ -17,7 +17,7 @@ class paste(object):
             setattr(self, k, v)
 
 
-class user(object):
+class User(object):
     """Defines a user contains the following fields:
        name
        format_short

@@ -24,11 +24,8 @@ def paste_list_from_xml(xml_paste_list):
         paste_dict = dict()
 
         for paste_element in paste_root:
-            key = paste_element.tag.split('_')[-1]
+            key = paste_element.tag.split('_', 1)[-1]
             value = paste_element.text
-
-            if key == 'date' and int(value) > 0:
-                value = datetime.utcfromtimestamp(int(value))
 
             paste_dict[key] = value
 

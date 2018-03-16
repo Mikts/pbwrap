@@ -87,7 +87,7 @@ class Pastebin(object):
         r = requests.post('https://pastebin.com/api/api_post.php', filtered_data)
 
         if r.text:
-            return ppaw_form.archive_url_format(r.text)
+            return ppaw_form.paste_list_from_xml(r.text)
         else:
             return 'No pastes in this account'
 

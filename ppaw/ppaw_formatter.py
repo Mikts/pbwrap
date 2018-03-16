@@ -44,8 +44,6 @@ def archive_url_format(archive_html):
     # Regex Magic
     pastes = re.findall(r'/><a href=\"/(.+?)\">(.+?)</a></td>', archive_html)
 
-    print(pastes)
-
     for paste_id, paste_name in pastes:
         pastes_urls.append('https://pastebin.com/' + paste_id)
 

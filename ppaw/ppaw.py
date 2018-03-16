@@ -47,7 +47,7 @@ class Pastebin(object):
 
         return ppaw_form.archive_url_format(r.text)
 
-    def get_raw_paste(paste_id):
+    def get_raw_paste(self, paste_id):
         """Return raw text of given paste_id."""
         r = requests.get('https://pastebin.com/raw/' + paste_id)
         return r.text
@@ -63,7 +63,7 @@ class Pastebin(object):
         data = {'api_dev_key': self.api_dev_key,
                 'api_user_key': self.api_user_key,
                 'api_paste_code': api_paste_code,
-                'api_paste_expire_date': api_paste_expire_date,
+                'api_paste_private': api_paste_private,
                 'api_paste_name': api_paste_name,
                 'api_paste_expire_date': api_paste_expire_date,
                 'api_paste_format': api_paste_format,
@@ -80,6 +80,7 @@ class Pastebin(object):
         """Return a list of user pastes."""
         data = {'api_dev_key': self.api_dev_key,
                 'api_user_key': self.api_user_key,
+                'api_results_limit': api_results_limit,
                 'api_option': API_OPTIONS['USER_PASTE']}
 
         # Filter data and remove dictionary None keys.
@@ -89,8 +90,8 @@ class Pastebin(object):
 
         if r.text:
             return ppaw_form.paste_list_from_xml(r.text)
-        else:
-            return 'No pastes in this account'
+
+        return 'No pastes in this account'
 
     def delete_user_paste(self, api_paste_key):
         """Deletes a paste created by the user."""

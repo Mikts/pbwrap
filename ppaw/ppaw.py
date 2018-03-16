@@ -12,11 +12,7 @@ class Pastebin(object):
         self.api_user_key = None
 
     def get_user_id(self, username, password):
-        """
-        Return a string with the api user key.
-        :param str password: The user in interest's password
-        :param str username: The user in interest's username
-        """
+        """Return a string with the api user key."""
         data = {'api_dev_key': self.dev_key,
                 'api_user_name': username,
                 'api_user_password': password}
@@ -25,7 +21,6 @@ class Pastebin(object):
         self.api_user_key = r.text
         return self.api_user_key
 
-    def get_user_details(self):
     def get_user_details(self):
         """Return user details"""
         data = {'api_dev_key': self.dev_key,
@@ -45,7 +40,7 @@ class Pastebin(object):
 
         return ppaw_form.paste_list_from_xml(r.text)
 
-    def get_archive():
+    def get_archive(@staticmethod):
         """Return archive paste list.Archive contains 25 most recent pastes."""
         r = requests.get('https://pastebin.com/archive')
 
@@ -57,17 +52,17 @@ class Pastebin(object):
         return r.text
 
     def create_new_paste(
-        self,
-        api_paste_code,
-        api_paste_private=0,
-        api_paste_name=None,
-        api_paste_expire_date=None,
-        api_paste_format=None,
-            api_user_key=None):
+            self,
+            api_paste_code,
+            api_paste_private=0,
+            api_paste_name=None,
+            api_paste_expire_date=None,
+            api_paste_format=None):
         """Create a new paste if succesfull return it's url."""
         data = {'api_dev_key': self.api_dev_key,
                 'api_user_key': self.api_user_key,
                 'api_paste_code': api_paste_code,
+                'api_paste_expire_date': api_paste_expire_date,
                 'api_paste_name': api_paste_name,
                 'api_paste_expire_date': api_paste_expire_date,
                 'api_paste_format': api_paste_format,
@@ -92,7 +87,7 @@ class Pastebin(object):
         r = requests.post('https://pastebin.com/api/api_post.php', filtered_data)
 
         if r.text:
-            return r.text
+            return ppaw_form.archive_url_format(r.text)
         else:
             return 'No pastes in this account'
 

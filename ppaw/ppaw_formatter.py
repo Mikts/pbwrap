@@ -1,10 +1,7 @@
-import xml.etree.ElementTree as et
-from datetime import datetime
-import re
-
-from ppaw.ppaw_models import Paste
-
 """Contains function that manipulate the API returns for easier data manipulation."""
+import xml.etree.ElementTree as et
+import re
+from ppaw.ppaw_models import Paste
 
 
 def paste_list_from_xml(xml_paste_list):
@@ -39,9 +36,9 @@ def archive_url_format(archive_html):
     pastes_urls = list()
 
     # Regex Magic
-    pastes = re.findall(r'/><a href=\"/(.+?)\">(.+?)</a></td>', archive_html)
+    pastes = re.findall(r'/><a href=\"/(.+?)\">', archive_html)
 
-    for paste_id, paste_name in pastes:
+    for paste_id in pastes:
         pastes_urls.append('https://pastebin.com/' + paste_id)
 
     return pastes_urls

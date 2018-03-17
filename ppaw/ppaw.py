@@ -7,7 +7,7 @@ from ppaw.helpers.constants import API_OPTIONS
 
 class Pastebin(object):
 
-    def __init__(self, api_dev_key):
+    def __init__(self, api_dev_key=None):
         self.api_dev_key = api_dev_key
         self.api_user_key = None
 
@@ -42,7 +42,7 @@ class Pastebin(object):
 
     @staticmethod
     def get_archive():
-        """Return archive paste list.Archive contains 25 most recent pastes."""
+        """Return archive paste link list.Archive contains 25 most recent pastes."""
         r = requests.get('https://pastebin.com/archive')
 
         return ppaw_form.archive_url_format(r.text)

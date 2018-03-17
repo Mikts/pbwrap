@@ -1,9 +1,10 @@
 """Contains the tests of the ppaw_formatter module"""
+from ppaw import ppaw
 from ppaw import ppaw_formatter as ppaw_form
+from ppaw.ppaw_models import Paste
 import json
 import pytest
-from datetime import datetime
-from ppaw.ppaw_models import Paste
+import re
 
 
 @pytest.fixture
@@ -35,3 +36,11 @@ def test_paste_list_from_xml():
     assert len(xml_paste_list) == len(json_paste_list)
     for json_paste, xml_paste in zip(json_paste_list, xml_paste_list):
         assert json_paste.__cmp__(xml_paste) is True
+
+
+def test_archive_url_format():
+    pb = ppaw.Pastebin()
+    archive_list = pb.get_archive()
+
+    for link in archive_list:
+        assert re.match(r'https://pastebin\.com/[a-zA-Z0-9]{8}', link).group() == link

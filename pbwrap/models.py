@@ -16,6 +16,9 @@ class Paste(object):
         for k, v in paste_dict.items():
             setattr(self, k, v)
 
+    def __cmp__(self, x):
+        return vars(self) == vars(x)
+
 
 class User(object):
     """Defines a user contains the following fields:

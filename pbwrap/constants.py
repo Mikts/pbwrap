@@ -2,4 +2,5 @@
 API_OPTIONS = {'TREND': 'trends',
                'PASTE': 'paste',
                'USER_PASTE': 'list',
-               'DELETE_PASTE': 'delete'}
+               'DELETE_PASTE': 'delete',
+               'USER_RAW_PASTE': 'show_paste'}

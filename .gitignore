@@ -9,6 +9,10 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+dist/
+build/
+*.egg-info
+
 
 
 # Unit test / coverage reports
@@ -25,4 +29,5 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Various
 driver.py

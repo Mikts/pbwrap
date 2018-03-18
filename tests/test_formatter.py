@@ -1,6 +1,6 @@
 """Contains the tests of the ppaw_formatter module"""
-from ppaw import ppaw
-from ppaw import ppaw_formatter as ppaw_form
+from ppaw.ppaw import Pastebin
+import ppaw.ppaw_formatter as ppaw_form
 from ppaw.ppaw_models import Paste
 import json
 import pytest
@@ -39,7 +39,7 @@ def test_paste_list_from_xml():
 
 
 def test_archive_url_format():
-    pb = ppaw.Pastebin()
+    pb = Pastebin()
     archive_list = pb.get_archive()
 
     for link in archive_list:

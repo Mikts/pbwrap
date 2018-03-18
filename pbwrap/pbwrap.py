@@ -2,8 +2,8 @@
 
 import requests
 import os
-import ppaw.ppaw_formatter as ppaw_form
-from ppaw.constants import API_OPTIONS
+import pbwrap.formatter as formatter
+from pbwrap.constants import API_OPTIONS
 
 
 class Pastebin(object):
@@ -38,7 +38,7 @@ class Pastebin(object):
 
         r = requests.post('https://pastebin.com/api/api_post.php', data)
 
-        return ppaw_form.user_from_xml(r.text)
+        return formatter.user_from_xml(r.text)
 
     def get_trending(self):
         """Return a list of paste objects created from the most trending pastes"""
@@ -48,14 +48,14 @@ class Pastebin(object):
 
         r = requests.post('https://pastebin.com/api/api_post.php', data)
 
-        return ppaw_form.paste_list_from_xml(r.text)
+        return formatter.paste_list_from_xml(r.text)
 
     @staticmethod
     def get_archive():
         """Return archive paste link list.Archive contains 25 most recent pastes."""
         r = requests.get('https://pastebin.com/archive')
 
-        return ppaw_form.archive_url_format(r.text)
+        return formatter.archive_url_format(r.text)
 
     def get_raw_paste(self, paste_id):
         """Return raw text of given paste_id."""
@@ -115,7 +115,7 @@ class Pastebin(object):
         r = requests.post('https://pastebin.com/api/api_post.php', filtered_data)
 
         if r.text:
-            return ppaw_form.paste_list_from_xml(r.text)
+            return formatter.paste_list_from_xml(r.text)
 
         return 'No pastes in this account'
 

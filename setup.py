@@ -9,7 +9,7 @@ with open('README.md') as f:
 
 setup(
     name='pbwrap',
-    version='1.0.1',
+    version='1.0.2',
     description='A Pastebin API Wrapper for Python',
     license='MIT',
     long_description=long_description,

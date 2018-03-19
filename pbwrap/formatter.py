@@ -4,17 +4,19 @@ import re
 from pbwrap.models import Paste
 
 
-def paste_list_from_xml(xml_paste_list):
+def paste_list_from_xml(xml_paste):
     """Input an xml list and return a list of paste objects.
-        <paste>
-        ....
-        </paste>
+        :param xml_paste: An xml formatted response containing Paste information
+        :type: string:
+
+        :returns: a list of Paste objects parsed from the input xml formatted string
+        :rtype: list
     """
     paste_list = list()
 
     # xml demands a base root to create xml element from string.
     # So we have to hardcode it.
-    root = et.fromstring("<root>" + xml_paste_list + "</root>")
+    root = et.fromstring("<root>" + xml_paste + "</root>")
 
     # Iterate <paste> child elements and create a paste object.
     for paste_root in root:
@@ -32,7 +34,13 @@ def paste_list_from_xml(xml_paste_list):
 
 
 def archive_url_format(archive_html):
-    """Return a list with recent pastes urls"""
+    """Return a list with recent pastes urls
+        :param archive_html: raw html of the archive url
+        :type archive_html: string
+
+        :returns: a list containing url strings
+        :rtype: list
+    """
     pastes_urls = list()
 
     # Regex Magic
@@ -45,7 +53,13 @@ def archive_url_format(archive_html):
 
 
 def user_from_xml(user_xml_string):
-    """Return user dictionary from an xml format string."""
+    """Return user dictionary from an xml format string
+        :param user_xml_string: xml formatted string containing user information
+        :type user_xml_string: string
+
+        :returns: A dictionary containing the user info
+        :rtype: dictionary
+    """
     root = et.fromstring(user_xml_string)
     user_dict = dict()
 

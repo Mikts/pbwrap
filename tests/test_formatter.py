@@ -1,7 +1,7 @@
 """Contains the tests of the formatter module"""
-from pbwrap.pbwrap import Pastebin
+from pbwrap import Pastebin
 import pbwrap.formatter as formatter
-from pbwrap.models import Paste
+from pbwrap import Paste
 import json
 import pytest
 import re

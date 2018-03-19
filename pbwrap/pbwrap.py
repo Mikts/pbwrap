@@ -9,21 +9,16 @@ from pbwrap.constants import API_OPTIONS
 class Pastebin(object):
     """Pastebin class represents your communication with the Pastebin API through its functions
        you can use every API endpoint avalaible.
-        Attributes :
-                    :type api_dev_key: string
-                    :param api_dev_key: Your Pastebin API key
-                    :type api_user_key: string
-                    :param api_user_key: Your User Key from API login/authentication
 
        Most functions require at least an api_dev_key parameter.
        Functions for manipulating your pastes through the API require an api_user_key.
     """
 
     def __init__(self, api_dev_key=None):
-        """Instantiate a Pastebin Object.
+        """Instantiate a Pastebin Object
 
-           :type api_dev_key: string
            :param api_dev_key: Your API Pastebin key
+           :type api_dev_key: string
         """
         self.api_dev_key = api_dev_key
         self.api_user_key = None
@@ -82,6 +77,7 @@ class Pastebin(object):
     @staticmethod
     def get_archive():
         """Return archive paste link list.Archive contains 25 most recent pastes.
+
            :returns: a list of url strings
            :rtype: list
         """
@@ -109,16 +105,22 @@ class Pastebin(object):
             api_paste_expire_date=None,
             api_paste_format=None):
         """Create a new paste if succesfull return it's url.
+
            :type api_paste_code: string
            :param api_paste_code: your paste text
+
            :type api_paste_private: int
            :param api_paste_private: valid values=0(public),1(unlisted),2(private)
+
            :type api_paste_name: string
            :param api_user_name: your paste name
+
            :type api_paste_expire_date: string
            :param api_paste_expire_date: check documentation for valid values
+
            :type api_paste_format: string
            :param api_paste_format: check documentation for valid values
+
            :returns: new paste url
            :rtype: string
         """
@@ -146,16 +148,22 @@ class Pastebin(object):
             api_paste_expire_date=None,
             api_paste_format=None):
             """Create a new paste from file if succesfull return it's url.
+
                 :type filepath: string
                 :param filepath: the path of the file
+
                 :type api_paste_private: int
                 :param api_paste_private: valid values=0(public),1(unlisted),2(private)
+
                 :type api_paste_name: string
                 :param api_user_name: your paste name
+
                 :type api_paste_expire_date: string
                 :param api_paste_expire_date: check documentation for valid values
+
                 :type api_paste_format: string
                 :param api_paste_format: check documentation for valid values
+
                 :returns: new paste url
                 :rtype: string
             """
@@ -169,8 +177,10 @@ class Pastebin(object):
 
     def get_user_pastes(self, api_results_limit=None):
         """Return a list of Pastes created from the user
+
             :type api_results_limit: int
             :param api_results_limit: min=1, max=1000
+
             :returns: a list of Pastes created from the user
             :rtype: list
         """
@@ -191,6 +201,7 @@ class Pastebin(object):
 
     def get_user_raw_paste(self, api_paste_key):
         """Return the raw data of a user paste(even private pastes!) as string.
+
             :param api_paste_key: the id key of the paste you want to fetch
             :type api_paste_key: string
 
@@ -208,6 +219,7 @@ class Pastebin(object):
 
     def delete_user_paste(self, api_paste_key):
         """Deletes a paste created by the user.
+
             :param api_paste_key: the id key of the paste you want to delete
             :type api_paste_key: string
 

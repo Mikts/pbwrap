@@ -6,8 +6,9 @@ from pbwrap.models import Paste
 
 def paste_list_from_xml(xml_paste):
     """Input an xml list and return a list of paste objects.
+
         :param xml_paste: An xml formatted response containing Paste information
-        :type: string:
+        :type: string
 
         :returns: a list of Paste objects parsed from the input xml formatted string
         :rtype: list
@@ -35,6 +36,7 @@ def paste_list_from_xml(xml_paste):
 
 def archive_url_format(archive_html):
     """Return a list with recent pastes urls
+
         :param archive_html: raw html of the archive url
         :type archive_html: string
 
@@ -54,6 +56,7 @@ def archive_url_format(archive_html):
 
 def user_from_xml(user_xml_string):
     """Return user dictionary from an xml format string
+
         :param user_xml_string: xml formatted string containing user information
         :type user_xml_string: string
 

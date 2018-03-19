@@ -10,6 +10,9 @@ This wrapper is based on **Pastebin** API read their Documentation [**here.**](h
 for extra information and usage guide.
 
 ### Usage
+For a full list of the methods offered by the package [**Read.**](http://pbwrap.readthedocs.io/en/latest/)
+
+#### Quickstart
 Import and instantiate a Pastebin Object.
 ```Python
 from pbwrap import Pastebin

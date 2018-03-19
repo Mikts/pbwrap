@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-# Get long description from the README.md
+# Get long description from the README.rst
 with open('README.md') as f:
     long_description = f.read()
 

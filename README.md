@@ -22,7 +22,7 @@ pastebin = Pastebin(api_dev_key)
 ##### Get User Id
 Returns a string with the user_id created after authentication.
 ```Python
-user_id = pastebin.get_user_id(username, password)
+user_id = pastebin.authenticate(username, password)
 ```
 
 ##### Get Trending Pastes details
@@ -40,7 +40,7 @@ Some API endpoints return paste data in xml format the wrapper either converts t
 or returns them as Paste objects which contain the following fields:
 
 * **key**
-* **date** in  **_UNIX_**
+* **date** in  **_UNIXTIME_**
 * **title**
 * **size**
 * **expire_date**
@@ -51,4 +51,4 @@ or returns them as Paste objects which contain the following fields:
 * **hits**
 
 ## License
-pbwrap is released under [**MIT License**](../LICENSE)
+pbwrap is released under [**MIT License**](./LICENSE)

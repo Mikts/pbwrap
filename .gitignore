@@ -27,7 +27,7 @@ coverage.xml
 *,cover
 
 # Sphinx documentation
-docs/
+docs/build
 # Convert md to rst till PyPi supports markdown.
 README.rst
 

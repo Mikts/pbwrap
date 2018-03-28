@@ -9,6 +9,7 @@ import re
 
 @pytest.fixture
 def create_Paste_list(json_dic):
+    """Return a list of Paste objects from a json dictionary"""
     json_paste_list = list()
     for i in json_dic['paste']:
         temp_dict = dict()
@@ -20,6 +21,7 @@ def create_Paste_list(json_dic):
 
 
 def test_user_from_xml():
+    """Test the user_from_xml function"""
     raw_xml = open('tests/dummyData/dummyUser.xml').read()
     xml_dic = formatter.user_from_xml(raw_xml)
     json_dic = json.load(open('tests/dummyData/dummyUser.json'))
@@ -41,6 +43,8 @@ def test_paste_list_from_xml():
 def test_archive_url_format():
     pb = Pastebin()
     archive_list = pb.get_archive()
-
+    print(archive_list)
     for link in archive_list:
-        assert re.match(r'https://pastebin\.com/[a-zA-Z0-9]{8}', link).group() == link
+        print(link)
+        reg = re.match(r'https://pastebin\.com/[a-zA-Z0-9]{8}', link)
+        assert reg.group() == link

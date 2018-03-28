@@ -1,8 +1,13 @@
 import setuptools
+import os.path
 
 # Get long description from the README.rst
-with open('README.rst') as f:
-    long_description = f.read()
+if os.path.isfile('README.rst'):
+    with open('README.rst') as f:
+        long_description = f.read()
+else:
+    with open('README.md') as f:
+        long_description = f.read()
 
 # Arguments marked as "Required" below must be included for upload to PyPI.
 # Fields marked as "Optional" may be commented out.

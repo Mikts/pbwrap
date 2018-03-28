@@ -14,16 +14,16 @@ else:
 
 setuptools.setup(
     name='pbwrap',
-    version='1.0.3',
+    version='1.0.4',
     description='A Pastebin API Wrapper for Python',
     license='MIT',
-    long_description_content_type='text/rst',
+    long_description_content_type='text/x-rst',
     long_description=long_description,
     url='https://github.com/Mikts/pbwrap',
     author='Michael Tsoukatos',
     author_email='mikts94@gmail.com',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Topic :: Software Development',

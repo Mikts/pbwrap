@@ -13,8 +13,12 @@ matrix:
     # command to install dependencies
 install:
     - pip install requests
-    - pip install pytest pytest-cov
+    - pip install pytest
+    - pip install coverage
+    - pip install coveralls
     - python setup.py install
     # command to run tests
 script:
-    - pytest tests/
+    - coverage run --source=pbwrap -m pytest
+    - coverage report
+    - coveralls

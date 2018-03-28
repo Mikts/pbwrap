@@ -1,4 +1,8 @@
 # Pastebin API wrapper for Python (pbwrap)
+[![PyPI version](https://badge.fury.io/py/pbwrap.svg)](https://badge.fury.io/py/pbwrap)
+[![Build Status](https://travis-ci.org/Mikts/pbwrap.svg?branch=master)](https://travis-ci.org/Mikts/pbwrap)
+[![Coverage Status](https://coveralls.io/repos/github/Mikts/pbwrap/badge.svg)](https://coveralls.io/github/Mikts/pbwrap)
+
 
 >**Python API wrapper for the Pastebin Public API.  
 Lifetime pro endpoints are not yet supported!**  

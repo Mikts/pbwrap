@@ -44,13 +44,15 @@ def archive_url_format(archive_html):
         :rtype: list
     """
     pastes_urls = list()
-
     # Regex Magic
     pastes = re.findall(r'/><a href=\"/(.+?)\">', archive_html)
 
     for paste_id in pastes:
-        pastes_urls.append('https://pastebin.com/' + paste_id)
 
+        if re.match(r'[a-zA-Z0-9]{8}', paste_id) is not None:
+            pastes_urls.append('https://pastebin.com/' + paste_id)
+
+    print(pastes_urls)
     return pastes_urls
 
 

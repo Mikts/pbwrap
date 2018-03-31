@@ -44,7 +44,7 @@ def test_archive_url_format():
     pb = Pastebin()
     archive_list = pb.get_archive()
     print(archive_list)
-    for link in archive_list:
-        print(link)
-        reg = re.match(r'https://pastebin\.com/[a-zA-Z0-9]{8}', link)
-        assert reg.group() == link
+    for id in archive_list:
+        print(id)
+        reg = re.match(r'[a-zA-Z0-9]{8}', id)
+        assert reg.group() == id

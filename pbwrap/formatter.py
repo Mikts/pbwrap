@@ -35,25 +35,24 @@ def paste_list_from_xml(xml_paste):
 
 
 def archive_url_format(archive_html):
-    """Return a list with recent pastes urls
+    """Return a list with recent pastes ids
 
         :param archive_html: raw html of the archive url
         :type archive_html: string
 
-        :returns: a list containing url strings
+        :returns: a list containing paste ids
         :rtype: list
     """
-    pastes_urls = list()
+    pastes_ids = list()
     # Regex Magic
     pastes = re.findall(r'/><a href=\"/(.+?)\">', archive_html)
 
     for paste_id in pastes:
 
         if re.match(r'[a-zA-Z0-9]{8}', paste_id) is not None:
-            pastes_urls.append('https://pastebin.com/' + paste_id)
+            pastes_ids.append(paste_id)
 
-    print(pastes_urls)
-    return pastes_urls
+    return pastes_ids
 
 
 def user_from_xml(user_xml_string):

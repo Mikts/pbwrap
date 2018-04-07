@@ -1,7 +1,6 @@
 """Contains a wrapper for the Pastebin API for easier usage."""
-
-import requests
 import os
+import requests
 import pbwrap.formatter as formatter
 from pbwrap.constants import API_OPTIONS
 
@@ -85,8 +84,11 @@ class Pastebin(object):
 
         return formatter.archive_url_format(r.text)
 
-    def get_raw_paste(self, paste_id):
+    @staticmethod
+    def get_raw_paste(paste_id):
         """Return raw string of given paste_id.
+
+           get_raw_paste(pasted_id)
 
            :type paste_id: string
            :param paste_id: The ID key of the paste
@@ -97,13 +99,8 @@ class Pastebin(object):
         r = requests.get('https://pastebin.com/raw/' + paste_id)
         return r.text
 
-    def create_paste(
-            self,
-            api_paste_code,
-            api_paste_private=0,
-            api_paste_name=None,
-            api_paste_expire_date=None,
-            api_paste_format=None):
+    def create_paste(self, api_paste_code, api_paste_private=0, api_paste_name=None, api_paste_expire_date=None,
+                     api_paste_format=None):
         """Create a new paste if succesfull return it's url.
 
            :type api_paste_code: string
@@ -140,40 +137,34 @@ class Pastebin(object):
 
         return r.text
 
-    def create_paste_from_file(
-            self,
-            filepath,
-            api_paste_private=0,
-            api_paste_name=None,
-            api_paste_expire_date=None,
-            api_paste_format=None):
-            """Create a new paste from file if succesfull return it's url.
+    def create_paste_from_file(self, filepath, api_paste_private=0, api_paste_name=None,
+                               api_paste_expire_date=None, api_paste_format=None):
+        """Create a new paste from file if succesfull return it's url.
 
-                :type filepath: string
-                :param filepath: the path of the file
+            :type filepath: string
+            :param filepath: the path of the file
 
-                :type api_paste_private: int
-                :param api_paste_private: valid values=0(public),1(unlisted),2(private)
+            :type api_paste_private: int
+            :param api_paste_private: valid values=0(public),1(unlisted),2(private)
 
-                :type api_paste_name: string
-                :param api_user_name: your paste name
+            :type api_paste_name: string
+            :param api_user_name: your paste name
 
-                :type api_paste_expire_date: string
-                :param api_paste_expire_date: check documentation for valid values
+            :type api_paste_expire_date: string
+            :param api_paste_expire_date: check documentation for valid values
 
-                :type api_paste_format: string
-                :param api_paste_format: check documentation for valid values
+            :type api_paste_format: string
+            :param api_paste_format: check documentation for valid values
 
-                :returns: new paste url
-                :rtype: string
+            :returns: new paste url
+            :rtype: string
             """
-            if os.path.exists(filepath):
-                api_paste_code = open(filepath).read()
-                return create_paste(api_paste_code, api_paste_private,
-                                    api_paste_name, api_paste_expire_date, api_paste_format)
-
-            print('File not found')
-            return None
+        if os.path.exists(filepath):
+            api_paste_code = open(filepath).read()
+            return self.create_paste(api_paste_code, api_paste_private, api_paste_name,
+                                     api_paste_expire_date, api_paste_format)
+        print('File not found')
+        return None
 
     def get_user_pastes(self, api_results_limit=None):
         """Return a list of Pastes created from the user
@@ -234,3 +225,61 @@ class Pastebin(object):
         r = requests.post('https://pastebin.com/api/api_post.php', data)
 
         return r.text
+
+    @staticmethod
+    def get_recent_pastes(limit=50, lang=None):
+        """get_recent_pastes(limit=50, lang=None)
+
+            Return a list containing dictionaries of paste.
+
+            :param limit: the limit of the items returned defaults to 50
+            :type limit: int
+
+            :param lang: return only pastes from certain language defaults to None
+            :type lang: string
+
+            :returns: list of dictionaries containing paste info
+            :rtype: list
+        """
+        parameters = {
+            'limit': limit,
+            'lang': lang
+        }
+
+        r = requests.get('https://pastebin.com/api_scraping.php', params=parameters)
+
+        return r.json()
+
+    @staticmethod
+    def scrape_raw_paste(paste_key):
+        """scrape_raw_paste(paste_key)
+
+            Return a string containing the text of the paste.
+
+            :param paste_key: the unique key of the paste you want to scrape
+            :type paste_key: string
+
+            :returns: raw string containing the text of the paste
+            :rtype: string
+        """
+        parameter = {'i': paste_key}
+        r = requests.get('https://pastebin.com/api_scrape_item.php', params=parameter)
+
+        return r.text
+
+    @staticmethod
+    def scrape_paste_metadata(paste_key):
+        """scrape_paste_metadata(paste_key)
+
+            Return a dictionary containing the metadata of the paste.
+
+            :param paste_key: the unique key of the paste you want to scrape
+            :type paste_key: string
+
+            :returns: dictionary containing the metadata of the paste
+            :rtype: dictionary
+        """
+        parameter = {'i': paste_key}
+        r = requests.get('https://pastebin.com/api_scrape_item_meta.php', params=parameter)
+
+        return r.json()

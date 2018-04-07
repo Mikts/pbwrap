@@ -5,7 +5,6 @@
 
 
 >**Python API wrapper for the Pastebin Public API.  
-Lifetime pro endpoints are not yet supported!**  
 **Only  _Python 3_ supported!**
 
 ## Documentation

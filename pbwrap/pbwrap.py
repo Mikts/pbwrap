@@ -246,7 +246,7 @@ class Pastebin(object):
             'lang': lang
         }
 
-        r = requests.get('https://pastebin.com/api_scraping.php', params=parameters)
+        r = requests.get('https://scrape.pastebin.com/api_scraping.php', params=parameters)
 
         return r.json()
 
@@ -263,7 +263,7 @@ class Pastebin(object):
             :rtype: string
         """
         parameter = {'i': paste_key}
-        r = requests.get('https://pastebin.com/api_scrape_item.php', params=parameter)
+        r = requests.get('https://scrape.pastebin.com/api_scrape_item.php', params=parameter)
 
         return r.text
 
@@ -280,6 +280,6 @@ class Pastebin(object):
             :rtype: dictionary
         """
         parameter = {'i': paste_key}
-        r = requests.get('https://pastebin.com/api_scrape_item_meta.php', params=parameter)
+        r = requests.get('https://scrape.pastebin.com/api_scrape_item_meta.php', params=parameter)
 
         return r.json()

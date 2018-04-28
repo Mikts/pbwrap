@@ -14,7 +14,7 @@ else:
 
 setuptools.setup(
     name='pbwrap',
-    version='1.0.6',
+    version='1.0.7',
     description='A Pastebin API Wrapper for Python',
     license='MIT',
     long_description_content_type='text/x-rst',

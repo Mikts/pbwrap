@@ -64,3 +64,6 @@ class User:
     def __init__(self, user_dict):
         for k, v in user_dict.items():
             setattr(self, k, v)
+
+    def __cmp__(self, x):
+        return vars(self) == vars(x)

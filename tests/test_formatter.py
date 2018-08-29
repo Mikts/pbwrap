@@ -5,7 +5,8 @@ import re
 import pytest
 
 from pbwrap import formatter
-from pbwrap import Paste, Pastebin
+from pbwrap import Pastebin
+from pbwrap.models import Paste, User
 
 
 @pytest.fixture
@@ -24,10 +25,10 @@ def create_paste_list(json_dic):
 def test_user_from_xml():
     """Test the user_from_xml function"""
     raw_xml = open("tests/dummyData/dummyUser.xml").read()
-    xml_dic = formatter.user_from_xml(raw_xml)
-    json_dic = json.load(open("tests/dummyData/dummyUser.json"))
+    xml_user = formatter.user_from_xml(raw_xml)
+    json_user = User(json.load(open("tests/dummyData/dummyUser.json")))
 
-    assert xml_dic == json_dic
+    assert xml_user.__cmp__(json_user)
 
 
 def test_paste_list_from_xml():

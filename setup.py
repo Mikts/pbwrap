@@ -2,12 +2,8 @@ import setuptools
 import os.path
 
 # Get long description from the README.rst
-if os.path.isfile('README.rst'):
-    with open('README.rst') as f:
-        long_description = f.read()
-else:
-    with open('README.md') as f:
-        long_description = f.read()
+with open('README.md') as f:
+    long_description = f.read()
 
 # Arguments marked as "Required" below must be included for upload to PyPI.
 # Fields marked as "Optional" may be commented out.
@@ -17,7 +13,7 @@ setuptools.setup(
     version='1.0.7',
     description='A Pastebin API Wrapper for Python',
     license='MIT',
-    long_description_content_type='text/x-rst',
+    long_description_content_type='text/markdown',
     long_description=long_description,
     url='https://github.com/Mikts/pbwrap',
     author='Michael Tsoukatos',

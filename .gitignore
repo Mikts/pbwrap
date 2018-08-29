@@ -12,6 +12,7 @@ env/
 dist/
 build/
 *.egg-info
+.venv
 
 
 
@@ -33,3 +34,5 @@ README.rst
 
 # Various
 driver.py
+Pipfile
+Pipfile.lock

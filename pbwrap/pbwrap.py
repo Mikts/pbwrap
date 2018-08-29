@@ -1,8 +1,11 @@
 """Contains a wrapper for the Pastebin API for easier usage."""
 import os
+
 import requests
+
 import pbwrap.formatter as formatter
 from pbwrap.constants import API_OPTIONS
+from pbwrap.models import Paste
 
 
 class Pastebin(object):
@@ -35,11 +38,13 @@ class Pastebin(object):
            :returns: your user_id key
            :rtype: string
         """
-        data = {'api_dev_key': self.api_dev_key,
-                'api_user_name': username,
-                'api_user_password': password}
+        data = {
+            "api_dev_key": self.api_dev_key,
+            "api_user_name": username,
+            "api_user_password": password,
+        }
 
-        r = requests.post('https://pastebin.com/api/api_login.php', data)
+        r = requests.post("https://pastebin.com/api/api_login.php", data)
 
         self.api_user_key = r.text
 
@@ -52,10 +57,9 @@ class Pastebin(object):
            :returns: dictionary containing user details
            :rtype: dictionary
         """
-        data = {'api_dev_key': self.api_dev_key,
-                'api_user_key': self.api_user_key}
+        data = {"api_dev_key": self.api_dev_key, "api_user_key": self.api_user_key}
 
-        r = requests.post('https://pastebin.com/api/api_post.php', data)
+        r = requests.post("https://pastebin.com/api/api_post.php", data)
 
         return formatter.user_from_xml(r.text)
 
@@ -65,11 +69,9 @@ class Pastebin(object):
            :returns: a list of Paste objects
            :rtype: list
         """
-        data = {
-            'api_dev_key': self.api_dev_key,
-            'api_option': API_OPTIONS['TREND']}
+        data = {"api_dev_key": self.api_dev_key, "api_option": API_OPTIONS["TREND"]}
 
-        r = requests.post('https://pastebin.com/api/api_post.php', data)
+        r = requests.post("https://pastebin.com/api/api_post.php", data)
 
         return formatter.paste_list_from_xml(r.text)
 
@@ -80,7 +82,7 @@ class Pastebin(object):
            :returns: a list of url strings
            :rtype: list
         """
-        r = requests.get('https://pastebin.com/archive')
+        r = requests.get("https://pastebin.com/archive")
 
         return formatter.archive_url_format(r.text)
 
@@ -96,11 +98,17 @@ class Pastebin(object):
            :returns: the text of the paste
            :rtype: string
         """
-        r = requests.get('https://pastebin.com/raw/' + paste_id)
+        r = requests.get("https://pastebin.com/raw/" + paste_id)
         return r.text
 
-    def create_paste(self, api_paste_code, api_paste_private=0, api_paste_name=None, api_paste_expire_date=None,
-                     api_paste_format=None):
+    def create_paste(
+        self,
+        api_paste_code,
+        api_paste_private=0,
+        api_paste_name=None,
+        api_paste_expire_date=None,
+        api_paste_format=None,
+    ):
         """Create a new paste if succesfull return it's url.
 
            :type api_paste_code: string
@@ -121,24 +129,32 @@ class Pastebin(object):
            :returns: new paste url
            :rtype: string
         """
-        data = {'api_dev_key': self.api_dev_key,
-                'api_user_key': self.api_user_key,
-                'api_paste_code': api_paste_code,
-                'api_paste_private': api_paste_private,
-                'api_paste_name': api_paste_name,
-                'api_paste_expire_date': api_paste_expire_date,
-                'api_paste_format': api_paste_format,
-                'api_option': API_OPTIONS['PASTE']}
+        data = {
+            "api_dev_key": self.api_dev_key,
+            "api_user_key": self.api_user_key,
+            "api_paste_code": api_paste_code,
+            "api_paste_private": api_paste_private,
+            "api_paste_name": api_paste_name,
+            "api_paste_expire_date": api_paste_expire_date,
+            "api_paste_format": api_paste_format,
+            "api_option": API_OPTIONS["PASTE"],
+        }
 
         # Filter data and remove dictionary None keys.
         filtered_data = {k: v for k, v in data.items() if v is not None}
 
-        r = requests.post('https://pastebin.com/api/api_post.php', filtered_data)
+        r = requests.post("https://pastebin.com/api/api_post.php", filtered_data)
 
         return r.text
 
-    def create_paste_from_file(self, filepath, api_paste_private=0, api_paste_name=None,
-                               api_paste_expire_date=None, api_paste_format=None):
+    def create_paste_from_file(
+        self,
+        filepath,
+        api_paste_private=0,
+        api_paste_name=None,
+        api_paste_expire_date=None,
+        api_paste_format=None,
+    ):
         """Create a new paste from file if succesfull return it's url.
 
             :type filepath: string
@@ -161,9 +177,14 @@ class Pastebin(object):
             """
         if os.path.exists(filepath):
             api_paste_code = open(filepath).read()
-            return self.create_paste(api_paste_code, api_paste_private, api_paste_name,
-                                     api_paste_expire_date, api_paste_format)
-        print('File not found')
+            return self.create_paste(
+                api_paste_code,
+                api_paste_private,
+                api_paste_name,
+                api_paste_expire_date,
+                api_paste_format,
+            )
+        print("File not found")
         return None
 
     def get_user_pastes(self, api_results_limit=None):
@@ -175,20 +196,22 @@ class Pastebin(object):
             :returns: a list of Pastes created from the user
             :rtype: list
         """
-        data = {'api_dev_key': self.api_dev_key,
-                'api_user_key': self.api_user_key,
-                'api_results_limit': api_results_limit,
-                'api_option': API_OPTIONS['USER_PASTE']}
+        data = {
+            "api_dev_key": self.api_dev_key,
+            "api_user_key": self.api_user_key,
+            "api_results_limit": api_results_limit,
+            "api_option": API_OPTIONS["USER_PASTE"],
+        }
 
         # Filter data and remove dictionary None keys.
         filtered_data = {k: v for k, v in data.items() if v is not None}
 
-        r = requests.post('https://pastebin.com/api/api_post.php', filtered_data)
+        r = requests.post("https://pastebin.com/api/api_post.php", filtered_data)
 
         if r.text:
             return formatter.paste_list_from_xml(r.text)
 
-        return 'No pastes in this account'
+        return "No pastes in this account"
 
     def get_user_raw_paste(self, api_paste_key):
         """Return the raw data of a user paste(even private pastes!) as string.
@@ -199,12 +222,14 @@ class Pastebin(object):
             :returns: the text of the paste
             :rtype: string
         """
-        data = {'api_dev_key': self.api_dev_key,
-                'api_user_key': self.api_user_key,
-                'api_paste_key': api_paste_key,
-                'api_option': API_OPTIONS['USER_RAW_PASTE']}
+        data = {
+            "api_dev_key": self.api_dev_key,
+            "api_user_key": self.api_user_key,
+            "api_paste_key": api_paste_key,
+            "api_option": API_OPTIONS["USER_RAW_PASTE"],
+        }
 
-        r = requests.post('https://pastebin.com/api/api_post.php', data)
+        r = requests.post("https://pastebin.com/api/api_post.php", data)
 
         return r.text
 
@@ -217,12 +242,14 @@ class Pastebin(object):
             :returns: api response
             :rtype: string
         """
-        data = {'api_dev_key': self.api_dev_key,
-                'api_user_key': self.api_user_key,
-                'api_paste_key': api_paste_key,
-                'api_option': API_OPTIONS['DELETE_PASTE']}
+        data = {
+            "api_dev_key": self.api_dev_key,
+            "api_user_key": self.api_user_key,
+            "api_paste_key": api_paste_key,
+            "api_option": API_OPTIONS["DELETE_PASTE"],
+        }
 
-        r = requests.post('https://pastebin.com/api/api_post.php', data)
+        r = requests.post("https://pastebin.com/api/api_post.php", data)
 
         return r.text
 
@@ -238,17 +265,18 @@ class Pastebin(object):
             :param lang: return only pastes from certain language defaults to None
             :type lang: string
 
-            :returns: list of dictionaries containing paste info
-            :rtype: list
+            :returns: list of Paste objects.
+            :rtype: list(Paste)
         """
-        parameters = {
-            'limit': limit,
-            'lang': lang
-        }
+        parameters = {"limit": limit, "lang": lang}
 
-        r = requests.get('https://scrape.pastebin.com/api_scraping.php', params=parameters)
-
-        return r.json()
+        r = requests.get(
+            "https://scrape.pastebin.com/api_scraping.php", params=parameters
+        )
+        paste_list = list()
+        for paste in r.json():
+            paste_list.append(Paste(paste))
+        return paste_list
 
     @staticmethod
     def scrape_raw_paste(paste_key):
@@ -262,8 +290,10 @@ class Pastebin(object):
             :returns: raw string containing the text of the paste
             :rtype: string
         """
-        parameter = {'i': paste_key}
-        r = requests.get('https://scrape.pastebin.com/api_scrape_item.php', params=parameter)
+        parameter = {"i": paste_key}
+        r = requests.get(
+            "https://scrape.pastebin.com/api_scrape_item.php", params=parameter
+        )
 
         return r.text
 
@@ -279,7 +309,9 @@ class Pastebin(object):
             :returns: dictionary containing the metadata of the paste
             :rtype: dictionary
         """
-        parameter = {'i': paste_key}
-        r = requests.get('https://scrape.pastebin.com/api_scrape_item_meta.php', params=parameter)
+        parameter = {"i": paste_key}
+        r = requests.get(
+            "https://scrape.pastebin.com/api_scrape_item_meta.php", params=parameter
+        )
 
         return r.json()

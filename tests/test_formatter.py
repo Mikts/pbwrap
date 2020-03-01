@@ -9,7 +9,6 @@ from pbwrap import Pastebin
 from pbwrap.models import Paste, User
 
 
-@pytest.fixture
 def create_paste_list(json_dic):
     """Return a list of Paste objects from a json dictionary"""
     json_paste_list = list()

@@ -1,5 +1,6 @@
 """Contains a wrapper for the Pastebin API for easier usage."""
 import os
+import io
 
 import requests
 
@@ -176,16 +177,17 @@ class Pastebin(object):
             :rtype: string
             """
         if os.path.exists(filepath):
-            api_paste_code = open(filepath).read()
-            return self.create_paste(
-                api_paste_code,
-                api_paste_private,
-                api_paste_name,
-                api_paste_expire_date,
-                api_paste_format,
-            )
-        print("File not found")
-        return None
+            with io.open(
+                filepath, encoding="utf-8", errors="ignore"
+            ).read() as api_paste_code:
+                return self.create_paste(
+                    api_paste_code,
+                    api_paste_private,
+                    api_paste_name,
+                    api_paste_expire_date,
+                    api_paste_format,
+                )
+            return None
 
     def get_user_pastes(self, api_results_limit=None):
         """Return a list of Pastes created from the user

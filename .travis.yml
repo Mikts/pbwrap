@@ -4,7 +4,6 @@ python:
     - "3.6"
     - "3.7"
     - "3.8"
-
 matrix:
     fast_finish: true
     # command to install dependencies
@@ -19,3 +18,7 @@ script:
     - coverage run --source=pbwrap -m pytest
     - coverage report
     - coveralls
+branches:
+    only:
+        - master
+        - dev

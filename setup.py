@@ -9,7 +9,7 @@ with open("README.md") as f:
 
 setuptools.setup(
     name="pbwrap",
-    version="1.1.0",
+    version="1.2.0",
     description="A Pastebin API Wrapper for Python",
     license="MIT",
     long_description_content_type="text/markdown",
@@ -25,9 +25,10 @@ setuptools.setup(
         "Topic :: Utilities",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
     ],
     python_requires=">=3",
     keywords="wrapper pastebin api development utility",

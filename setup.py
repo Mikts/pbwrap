@@ -34,6 +34,6 @@ setuptools.setup(
     keywords="wrapper pastebin api development utility",
     packages=setuptools.find_packages(exclude=["docs", "tests"]),
     install_requires=["requests"],
-    extras_require={"test": ["pytest"]},
+    extras_require={"test": ["pytest"], "async": ["aiohttp"]},
     project_urls={"Bug Reports": "https://github.com/Mikts/pbwrap/issues"},
 )

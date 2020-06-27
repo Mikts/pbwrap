@@ -70,57 +70,56 @@ try:
             """
             super().__init__(api_dev_key=dev_key)
 
-    @staticmethod
-    async def get_raw_paste(paste_id):
-        """Return raw string of given paste_id.
+        @staticmethod
+        async def get_raw_paste(paste_id):
+            """Return raw string of given paste_id.
 
-           get_raw_paste(pasted_id)
+            get_raw_paste(pasted_id)
 
-           :type paste_id: string
-           :param paste_id: The ID key of the paste
+            :type paste_id: string
+            :param paste_id: The ID key of the paste
 
-           :returns: the text of the paste
-           :rtype: string
-        """
-        r = await aiohttp.get("https://pastebin.com/raw/" + paste_id)
-        return await r.text
+            :returns: the text of the paste
+            :rtype: string
+            """
+            r = await aiohttp.get("https://pastebin.com/raw/" + paste_id)
+            return await r.text
 
-    @staticmethod
-    async def get_archive():
-        """Return archive paste link list.Archive contains 25 most recent pastes.
+        @staticmethod
+        async def get_archive():
+            """Return archive paste link list.Archive contains 25 most recent pastes.
 
-           :returns: a list of url strings
-           :rtype: list
-        """
-        r = await aiohttp.get("https://pastebin.com/archive")
+            :returns: a list of url strings
+            :rtype: list
+            """
+            r = await aiohttp.get("https://pastebin.com/archive")
 
-        return formatter.archive_url_format(await r.text)
+            return formatter.archive_url_format(await r.text)
 
-    @staticmethod
-    async def get_recent_pastes(limit=50, lang=None):
-        """get_recent_pastes(limit=50, lang=None)
+        @staticmethod
+        async def get_recent_pastes(limit=50, lang=None):
+            """get_recent_pastes(limit=50, lang=None)
 
-            Return a list containing dictionaries of paste.
+                Return a list containing dictionaries of paste.
 
-            :param limit: the limit of the items returned defaults to 50
-            :type limit: int
+                :param limit: the limit of the items returned defaults to 50
+                :type limit: int
 
-            :param lang: return only pastes from certain language defaults to None
-            :type lang: string
+                :param lang: return only pastes from certain language defaults to None
+                :type lang: string
 
-            :returns: list of Paste objects.
-            :rtype: list(Paste)
-        """
-        parameters = {"limit": limit, "lang": lang}
+                :returns: list of Paste objects.
+                :rtype: list(Paste)
+            """
+            parameters = {"limit": limit, "lang": lang}
 
-        r = await aiohttp.get(
-            "https://scrape.pastebin.com/api_scraping.php", params=parameters
-        )
-        paste_list = list()
-        for paste in await r.json():
-            paste_list.append(AsyncPaste(paste))
-        return paste_list
-
+            r = await aiohttp.get(
+                "https://scrape.pastebin.com/api_scraping.php", params=parameters
+            )
+            paste_list = list()
+            for paste in await r.json():
+                paste_list.append(AsyncPaste(paste))
+            return paste_list
 
 except ImportError:
     pass

@@ -17,14 +17,18 @@ class Pastebin(object):
     Functions for manipulating your pastes through the API require an api_user_key.
     """
 
-    def __init__(self, api_dev_key=None):
+    def __init__(self, api_dev_key=None, verify_ssl=True):
         """Instantiate a Pastebin Object
 
         :param api_dev_key: Your API Pastebin key
         :type api_dev_key: string
+
+        :param verify_ssl: If `False`, does not verify ssl certificate. Default: True
+        :type verify_ssl: bool
         """
         self.api_dev_key = api_dev_key
         self.api_user_key = None
+        self.verify_ssl = verify_ssl
 
     def authenticate(self, username, password):
         """Authenticate through the API login endpoint
@@ -45,7 +49,7 @@ class Pastebin(object):
             "api_user_password": password,
         }
 
-        r = requests.post("https://pastebin.com/api/api_login.php", data)
+        r = requests.post("https://pastebin.com/api/api_login.php", data, **self.general_params())
 
         self.api_user_key = r.text
 
@@ -60,7 +64,7 @@ class Pastebin(object):
         """
         data = {"api_dev_key": self.api_dev_key, "api_user_key": self.api_user_key}
 
-        r = requests.post("https://pastebin.com/api/api_post.php", data)
+        r = requests.post("https://pastebin.com/api/api_post.php", data, **self.general_params())
 
         return formatter.user_from_xml(r.text)
 
@@ -72,7 +76,7 @@ class Pastebin(object):
         """
         data = {"api_dev_key": self.api_dev_key, "api_option": API_OPTIONS["TREND"]}
 
-        r = requests.post("https://pastebin.com/api/api_post.php", data)
+        r = requests.post("https://pastebin.com/api/api_post.php", data, **self.general_params())
 
         return formatter.paste_list_from_xml(r.text)
 
@@ -83,7 +87,7 @@ class Pastebin(object):
         :returns: a list of url strings
         :rtype: list
         """
-        r = requests.get("https://pastebin.com/archive")
+        r = requests.get("https://pastebin.com/archive", **self.general_params())
 
         return formatter.archive_url_format(r.text)
 
@@ -99,7 +103,7 @@ class Pastebin(object):
         :returns: the text of the paste
         :rtype: string
         """
-        r = requests.get("https://pastebin.com/raw/" + paste_id)
+        r = requests.get("https://pastebin.com/raw/" + paste_id, **self.general_params())
         return r.text
 
     def create_paste(
@@ -144,7 +148,7 @@ class Pastebin(object):
         # Filter data and remove dictionary None keys.
         filtered_data = {k: v for k, v in data.items() if v is not None}
 
-        r = requests.post("https://pastebin.com/api/api_post.php", filtered_data)
+        r = requests.post("https://pastebin.com/api/api_post.php", filtered_data, **self.general_params())
 
         return r.text
 
@@ -208,7 +212,7 @@ class Pastebin(object):
         # Filter data and remove dictionary None keys.
         filtered_data = {k: v for k, v in data.items() if v is not None}
 
-        r = requests.post("https://pastebin.com/api/api_post.php", filtered_data)
+        r = requests.post("https://pastebin.com/api/api_post.php", filtered_data, **self.general_params())
 
         if r.text:
             return formatter.paste_list_from_xml(r.text)
@@ -231,7 +235,7 @@ class Pastebin(object):
             "api_option": API_OPTIONS["USER_RAW_PASTE"],
         }
 
-        r = requests.post("https://pastebin.com/api/api_raw.php", data)
+        r = requests.post("https://pastebin.com/api/api_raw.php", data, **self.general_params())
 
         return r.text
 
@@ -251,12 +255,22 @@ class Pastebin(object):
             "api_option": API_OPTIONS["DELETE_PASTE"],
         }
 
-        r = requests.post("https://pastebin.com/api/api_post.php", data)
+        r = requests.post("https://pastebin.com/api/api_post.php", data, **self.general_params())
 
         return r.text
 
+    def general_params(self):
+        """Returns parameters that should be included in every request
+
+        :returns: The options to be passed to requests.*
+        :rtype: dictionary
+        """
+        return {
+            "verify": self.verify_ssl
+        }
+
     @staticmethod
-    def get_recent_pastes(limit=50, lang=None):
+    def get_recent_pastes(limit=50, lang=None, verify_ssl=True):
         """get_recent_pastes(limit=50, lang=None)
 
         Return a list containing dictionaries of paste.
@@ -273,7 +287,8 @@ class Pastebin(object):
         parameters = {"limit": limit, "lang": lang}
 
         r = requests.get(
-            "https://scrape.pastebin.com/api_scraping.php", params=parameters
+            "https://scrape.pastebin.com/api_scraping.php", params=parameters,
+            verify=verify_ssl
         )
         paste_list = list()
         for paste in r.json():
@@ -281,7 +296,7 @@ class Pastebin(object):
         return paste_list
 
     @staticmethod
-    def scrape_raw_paste(paste_key):
+    def scrape_raw_paste(paste_key, verify_ssl=True):
         """scrape_raw_paste(paste_key)
 
         Return a string containing the text of the paste.
@@ -294,13 +309,14 @@ class Pastebin(object):
         """
         parameter = {"i": paste_key}
         r = requests.get(
-            "https://scrape.pastebin.com/api_scrape_item.php", params=parameter
+            "https://scrape.pastebin.com/api_scrape_item.php", params=parameter,
+            verify=verify_ssl
         )
 
         return r.text
 
     @staticmethod
-    def scrape_paste_metadata(paste_key):
+    def scrape_paste_metadata(paste_key, verify_ssl=True):
         """scrape_paste_metadata(paste_key)
 
         Return a dictionary containing the metadata of the paste.
@@ -313,7 +329,8 @@ class Pastebin(object):
         """
         parameter = {"i": paste_key}
         r = requests.get(
-            "https://scrape.pastebin.com/api_scrape_item_meta.php", params=parameter
+            "https://scrape.pastebin.com/api_scrape_item_meta.php", params=parameter,
+            verify=verify_ssl
         )
 
         return r.json()

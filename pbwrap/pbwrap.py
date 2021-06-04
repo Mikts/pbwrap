@@ -181,9 +181,8 @@ class Pastebin(object):
         :rtype: string
         """
         if os.path.exists(filepath):
-            with io.open(
-                filepath, encoding="utf-8", errors="ignore"
-            ).read() as api_paste_code:
+            with io.open(filepath, encoding="utf-8", errors="ignore") as f:
+                api_paste_code = f.read()
                 return self.create_paste(
                     api_paste_code,
                     api_paste_private,

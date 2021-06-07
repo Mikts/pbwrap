@@ -80,8 +80,7 @@ class Pastebin(object):
 
         return formatter.paste_list_from_xml(r.text)
 
-    @staticmethod
-    def get_archive():
+    def get_archive(self):
         """Return archive paste link list.Archive contains 25 most recent pastes.
 
         :returns: a list of url strings
@@ -91,8 +90,7 @@ class Pastebin(object):
 
         return formatter.archive_url_format(r.text)
 
-    @staticmethod
-    def get_raw_paste(paste_id):
+    def get_raw_paste(self, paste_id):
         """Return raw string of given paste_id.
 
         get_raw_paste(pasted_id)

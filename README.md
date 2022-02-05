@@ -9,7 +9,7 @@
 
 ## Documentation
 
-This wrapper is based on **Pastebin** API read their Documentation [**here.**](https://pastebin.com/api)  
+This wrapper is based on **Pastebin** API read their Documentation [**here.**](https://pastebin.com/doc_api)  
 for extra information and usage guide.
 
 ### Usage

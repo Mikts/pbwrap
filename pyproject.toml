@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pbwrap"
-version = "1.4.0"
+version = "1.5.0"
 description = "A Pastebin API Wrapper for Python"
 authors = ["Mikts <mikts94@gmail.com>"]
 license = "MIT"
@@ -17,11 +17,11 @@ classifiers=[
     "Topic :: Utilities",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 [tool.poetry.dependencies]
 python = ">=3.9.0,<4.0"
